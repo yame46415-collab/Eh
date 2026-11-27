@@ -1,54 +1,87 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b1120">
-<title>Quick Helper</title>
-<link rel="manifest" href="data:application/manifest+json,%7B%22name%22%3A%20%22Quick%20Helper%22%2C%20%22short_name%22%3A%20%22Helper%22%2C%20%22start_url%22%3A%20%22.%2F%22%2C%20%22scope%22%3A%20%22.%2F%22%2C%20%22display%22%3A%20%22standalone%22%2C%20%22background_color%22%3A%20%22%230b1120%22%2C%20%22theme_color%22%3A%20%22%230b1120%22%2C%20%22icons%22%3A%20%5B%7B%22src%22%3A%20%22data%3Aimage%2Fsvg%2Bxml%2C%253Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20512%20512%27%253E%253Cdefs%253E%253ClinearGradient%20id%3D%27g%27%20x1%3D%270%27%20y1%3D%270%27%20x2%3D%271%27%20y2%3D%271%27%253E%253Cstop%20offset%3D%270%27%20stop-color%3D%27%25234f8cff%27%2F%253E%253Cstop%20offset%3D%271%27%20stop-color%3D%27%25238f5bff%27%2F%253E%253C%2FlinearGradient%253E%253C%2Fdefs%253E%253Crect%20width%3D%27512%27%20height%3D%27512%27%20rx%3D%27112%27%20fill%3D%27url%28%2523g%29%27%2F%253E%253Ctext%20x%3D%27256%27%20y%3D%27340%27%20font-family%3D%27Arial%2CHelvetica%2Csans-serif%27%20font-size%3D%27280%27%20font-weight%3D%27bold%27%20fill%3D%27%2523fff%27%20text-anchor%3D%27middle%27%253E%3F%253C%2Ftext%253E%253C%2Fsvg%253E%22%2C%20%22sizes%22%3A%20%22any%22%2C%20%22type%22%3A%20%22image%2Fsvg%2Bxml%22%2C%20%22purpose%22%3A%20%22any%20maskable%22%7D%5D%7D">
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#070b16"><title>NOVA AI</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" href="icon-192.png">
 <style>
-:root{color-scheme:dark;--bg:#0b1120;--card:#151d2e;--line:#26324a;--text:#e8edf7;--muted:#9aa8bf;--accent:#4f8cff}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100dvh}
-header{padding:18px 16px 8px;display:flex;align-items:center;gap:10px}header h1{font-size:19px;margin:0}
-.logo{width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,#4f8cff,#8f5bff);display:grid;place-items:center;font-weight:800}
-main{padding:8px 16px 110px;max-width:720px;margin:auto}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:12px}
-.muted{color:var(--muted);font-size:13px;line-height:1.45}
-#chat{display:flex;flex-direction:column;gap:10px;min-height:40vh}
-.msg{max-width:86%;padding:10px 13px;border-radius:14px;line-height:1.45;white-space:pre-wrap}
-.you{align-self:flex-end;background:#2b4a8a;border-bottom-right-radius:4px}
-.bot{align-self:flex-start;background:#1d2637;border:1px solid var(--line);border-bottom-left-radius:4px}
-#composer{position:fixed;left:0;right:0;bottom:0;padding:12px 12px calc(12px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(11,17,32,0),var(--bg) 32%)}
-.bar{display:flex;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 6px 6px 16px;align-items:center}
-input{flex:1;background:transparent;border:0;color:var(--text);font:inherit;outline:none}
-button{border:0;cursor:pointer;font:inherit}
-.send{width:42px;height:42px;border-radius:50%;background:var(--accent);color:white;font-size:18px}
-.mic{width:42px;height:42px;border-radius:50%;background:#1d2637;border:1px solid var(--line);color:var(--text)}
-#bubble{position:fixed;right:14px;bottom:calc(90px + env(safe-area-inset-bottom));width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,#4f8cff,#8f5bff);color:white;font-size:24px;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.45);z-index:50;touch-action:none}
-#panel{position:fixed;inset:auto 12px 12px 12px;max-width:560px;margin:auto;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px;display:none;z-index:60;box-shadow:0 16px 40px rgba(0,0,0,.55)}
-#panel.open{display:block}
-.row{display:flex;gap:8px;align-items:center}.close{background:transparent;color:var(--muted);font-size:20px;padding:4px 8px}
-.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.chip{background:#1d2637;border:1px solid var(--line);color:var(--text);border-radius:999px;padding:7px 12px;font-size:13px}
+:root{color-scheme:dark;--bg:#070b16;--panel:#0e1526;--panel2:#131c30;--line:#22304d;--text:#eaf1ff;--muted:#8fa0bd;--a1:#22d3ee;--a2:#818cf8;--a3:#e879f9;--err:#ff6b81}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}body{margin:0;background:radial-gradient(1200px 700px at 80% -10%,#182449,transparent),var(--bg);color:var(--text);font-family:system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;min-height:100dvh;overflow-x:hidden}
+.glow{position:fixed;width:280px;height:280px;border-radius:50%;filter:blur(70px);opacity:.35;pointer-events:none;z-index:0}
+.g1{background:var(--a1);top:-90px;right:-70px}.g2{background:var(--a3);bottom:-100px;left:-80px}
+header{position:relative;z-index:2;padding:20px 18px 10px;display:flex;align-items:center;gap:12px}
+.avatar{width:44px;height:44px;border-radius:14px;background:linear-gradient(135deg,var(--a1),var(--a2),var(--a3));display:grid;place-items:center;font-weight:900;color:#04121f;box-shadow:0 6px 24px rgba(129,140,248,.35)}
+h1{margin:0;font-size:21px}.sub{font-size:12px;color:var(--muted)}
+.gear{margin-left:auto;background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:8px 10px}
+main{position:relative;z-index:2;padding:4px 16px 140px;max-width:760px;margin:auto}
+.hero{background:linear-gradient(145deg,rgba(34,211,238,.12),rgba(232,121,249,.10));border:1px solid rgba(129,140,248,.25);border-radius:22px;padding:18px;margin:8px 0 16px}
+.hero h2{margin:0 0 6px;font-size:20px}.hero p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.5}
+#chat{display:flex;flex-direction:column;gap:12px;min-height:34vh;padding-bottom:8px}
+.msg{max-width:88%;padding:12px 15px;border-radius:18px;line-height:1.55;white-space:pre-wrap;box-shadow:0 8px 24px rgba(0,0,0,.22);animation:pop .18s ease}
+@keyframes pop{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+.you{align-self:flex-end;background:linear-gradient(135deg,#2563eb,#7c3aed);border-bottom-right-radius:6px}
+.bot{align-self:flex-start;background:var(--panel);border:1px solid var(--line);border-bottom-left-radius:6px}
+.error{align-self:flex-start;background:rgba(255,107,129,.12);border:1px solid rgba(255,107,129,.4)}
+.typing span{display:inline-block;width:7px;height:7px;margin-right:4px;border-radius:50%;background:var(--a2);animation:blink 1s infinite}
+.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}
+@keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+.tool{background:var(--panel);border:1px solid var(--line);border-radius:16px;padding:13px;text-align:left;color:var(--text);font-size:14px;font-weight:600}
+.tool small{display:block;color:var(--muted);font-weight:400;margin-top:3px;font-size:11.5px}
+#composer{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:14px 14px calc(16px + env(safe-area-inset-bottom));background:linear-gradient(180deg,rgba(7,11,22,0),var(--bg) 38%)}
+.bar{display:flex;gap:8px;align-items:flex-end;background:rgba(19,28,48,.92);border:1px solid var(--line);border-radius:26px;padding:8px 8px 8px 18px;backdrop-filter:blur(14px)}
+textarea{flex:1;background:transparent;border:0;color:var(--text);font:inherit;outline:none;resize:none;max-height:120px;line-height:1.4;padding:8px 0}
+.round{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-size:18px}
+.mic{background:var(--panel2);border:1px solid var(--line);color:var(--text)}
+.send{background:linear-gradient(135deg,var(--a1),var(--a2));color:#04121f;font-weight:800}
+#bubble{position:fixed;right:16px;bottom:calc(104px + env(safe-area-inset-bottom));width:62px;height:62px;border-radius:50%;z-index:60;border:0;background:linear-gradient(135deg,var(--a1),var(--a2),var(--a3));color:#04121f;font-size:26px;font-weight:900;display:grid;place-items:center;box-shadow:0 10px 30px rgba(129,140,248,.45);touch-action:none}
+#sheet,#settings{position:fixed;inset:auto 12px 12px 12px;max-width:560px;margin:auto;background:rgba(14,21,38,.97);border:1px solid var(--line);border-radius:22px;padding:14px;display:none;z-index:70;box-shadow:0 20px 50px rgba(0,0,0,.6);backdrop-filter:blur(18px)}
+#sheet.open,#settings.open{display:block}.row{display:flex;align-items:center;gap:8px}.x{background:transparent;color:var(--muted);font-size:20px;padding:4px 8px}
+#quick,#worker{width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:14px;padding:12px;color:var(--text);font:inherit;outline:none;margin-top:10px}
+.chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.chip{background:var(--panel2);border:1px solid var(--line);color:var(--text);border-radius:999px;padding:8px 13px;font-size:12.5px}
+.note{color:var(--muted);font-size:12px;line-height:1.45;margin-top:10px}
 </style></head><body>
-<header><div class="logo">Q</div><h1>Quick Helper</h1></header>
-<main><div class="card"><strong>Your helper is ready.</strong><div class="muted">Tap the floating button to ask something quickly. Add this page to your Home Screen for one-tap access.</div></div><div id="chat"></div></main>
-<div id="composer"><div class="bar"><input id="q" placeholder="Ask for help…" autocomplete="off"><button id="mic" class="mic">🎙️</button><button id="send" class="send">↑</button></div></div>
-<button id="bubble">?</button>
-<div id="panel"><div class="row"><strong style="flex:1">Quick ask</strong><button id="close" class="close">✕</button></div><input id="quick" placeholder="What do you need help with?"><div class="chips"><button class="chip" data-q="Explain this simply: ">Explain simply</button><button class="chip" data-q="Summarize this: ">Summarize</button><button class="chip" data-q="Help me study: ">Study help</button><button class="chip" data-q="Write a polite message: ">Write message</button></div></div>
+<div class="glow g1"></div><div class="glow g2"></div>
+<header><div class="avatar">N</div><div><h1>NOVA AI</h1><div class="sub">Your personal assistant</div></div><button id="settingsBtn" class="gear">⚙️</button></header>
+<main>
+<div class="hero"><h2>Hey 👋 I’m NOVA.</h2><p>Ask me anything—homework, ideas, writing, translations, plans, or quick explanations.</p></div>
+<div id="chat"></div>
+<div class="tools">
+<button class="tool" data-p="Explain this simply: ">📚 Explain<small>Make anything easy to understand</small></button>
+<button class="tool" data-p="Solve this step by step: ">🧮 Solve<small>Math, science, and logic</small></button>
+<button class="tool" data-p="Summarize this: ">✨ Summarize<small>Turn long text into key points</small></button>
+<button class="tool" data-p="Translate to English: ">🌍 Translate<small>Translate any text</small></button>
+<button class="tool" data-p="Give me 5 creative ideas for: ">💡 Ideas<small>Get creative suggestions</small></button>
+<button class="tool" data-p="Write this in a clear, confident way: ">✍️ Write<small>Improve or draft text</small></button>
+</div></main>
+<div id="composer"><div class="bar"><textarea id="q" rows="1" placeholder="Message NOVA…"></textarea><button id="mic" class="round mic">🎙️</button><button id="send" class="round send">↑</button></div></div>
+<button id="bubble">N</button>
+<div id="sheet"><div class="row"><strong style="flex:1">Quick ask</strong><button id="close" class="x">✕</button></div><input id="quick" placeholder="What do you need?"><div class="chips"><button class="chip" data-q="Explain simply: ">Explain</button><button class="chip" data-q="Summarize: ">Summarize</button><button class="chip" data-q="Solve step by step: ">Solve</button><button class="chip" data-q="Translate to English: ">Translate</button></div></div>
+<div id="settings"><div class="row"><strong style="flex:1">Connect NOVA</strong><button id="closeSettings" class="x">✕</button></div>
+<input id="worker" placeholder="Paste your Cloudflare Worker URL">
+<div class="note">Create a free Cloudflare Worker, add your Gemini API key as a secret named <b>GEMINI_API_KEY</b>, then paste the Worker’s <b>.workers.dev</b> URL here. Never put your API key in GitHub.</div>
+<button id="save" class="chip" style="margin-top:12px">Save connection</button><button id="test" class="chip">Test connection</button></div>
 <script>
-const chat=document.getElementById('chat'),q=document.getElementById('q'),send=document.getElementById('send'),mic=document.getElementById('mic'),bubble=document.getElementById('bubble'),panel=document.getElementById('panel'),quick=document.getElementById('quick');
-function add(t,w){const d=document.createElement('div');d.className='msg '+w;d.textContent=t;chat.appendChild(d);d.scrollIntoView({behavior:'smooth',block:'end'});}
-function answer(t){return 'I can help with that. Here is a starting plan:\n\n1. Clarify exactly what you need.\n2. Break it into small steps.\n3. Ask me for an example, explanation, or draft.\n\nYour request: '+t;}
-function ask(t){if(!t.trim())return;add(t,'you');q.value='';setTimeout(()=>add(answer(t),'bot'),350);}
-send.onclick=()=>ask(q.value);q.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();ask(q.value);}});
-bubble.onclick=()=>{panel.classList.toggle('open');if(panel.classList.contains('open'))quick.focus();};
-document.getElementById('close').onclick=()=>panel.classList.remove('open');
-quick.addEventListener('keydown',e=>{if(e.key==='Enter'){ask(quick.value);quick.value='';panel.classList.remove('open');}});
-document.querySelectorAll('.chip').forEach(b=>b.onclick=()=>{quick.value=b.dataset.q;quick.focus();});
-mic.onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Voice input is not supported in this browser.');return;}const r=new SR();r.lang='en-US';r.onresult=e=>{q.value=e.results[0][0].transcript;ask(q.value);};r.start();};
-let sx=0,sy=0,drag=false;bubble.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX-bubble.offsetLeft;sy=e.clientY-bubble.offsetTop;bubble.setPointerCapture(e.pointerId);});
-bubble.addEventListener('pointermove',e=>{if(!drag)return;bubble.style.left=Math.max(6,Math.min(innerWidth-bubble.offsetWidth-6,e.clientX-sx))+'px';bubble.style.right='auto';bubble.style.top=Math.max(6,Math.min(innerHeight-bubble.offsetHeight-6,e.clientY-sy))+'px';bubble.style.bottom='auto';});
+const chat=document.getElementById('chat'),q=document.getElementById('q'),send=document.getElementById('send'),mic=document.getElementById('mic'),bubble=document.getElementById('bubble'),sheet=document.getElementById('sheet'),quick=document.getElementById('quick'),settings=document.getElementById('settings'),workerInput=document.getElementById('worker');
+const KEY='novaWorkerUrl';workerInput.value=localStorage.getItem(KEY)||'';
+function add(t,w,c){const d=document.createElement('div');d.className='msg '+(c||w);d.textContent=t;chat.appendChild(d);d.scrollIntoView({behavior:'smooth',block:'end'});return d;}
+function typing(){const d=document.createElement('div');d.className='msg bot typing';d.innerHTML='<span></span><span></span><span></span>';chat.appendChild(d);d.scrollIntoView({behavior:'smooth',block:'end'});return d;}
+async function ask(text){if(!text.trim())return;const url=localStorage.getItem(KEY);add(text,'you');q.value='';q.style.height='auto';if(!url){add('Connect NOVA first: tap ⚙️ and paste your Cloudflare Worker URL.','bot','error');return;}const t=typing();try{const r=await fetch(url,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message:text})});const data=await r.json();t.remove();if(!r.ok)throw new Error(data.error||('Request failed ('+r.status+')'));add(data.reply||'No response.','bot');}catch(e){t.remove();add('⚠️ '+e.message,'bot','error');}}
+send.onclick=()=>ask(q.value);
+q.addEventListener('input',()=>{q.style.height='auto';q.style.height=Math.min(q.scrollHeight,120)+'px'});
+q.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();ask(q.value)}});
+bubble.onclick=()=>{sheet.classList.toggle('open');if(sheet.classList.contains('open'))quick.focus()};
+document.getElementById('close').onclick=()=>sheet.classList.remove('open');
+quick.addEventListener('keydown',e=>{if(e.key==='Enter'){ask(quick.value);quick.value='';sheet.classList.remove('open')}});
+document.querySelectorAll('.chip,.tool').forEach(b=>b.onclick=()=>{quick.value=b.dataset.p||b.dataset.q;sheet.classList.add('open');quick.focus()});
+document.getElementById('settingsBtn').onclick=()=>settings.classList.add('open');
+document.getElementById('closeSettings').onclick=()=>settings.classList.remove('open');
+document.getElementById('save').onclick=()=>{localStorage.setItem(KEY,workerInput.value.trim());settings.classList.remove('open');add('Connection saved.','bot')};
+document.getElementById('test').onclick=()=>{localStorage.setItem(KEY,workerInput.value.trim());ask('Say "NOVA is connected." in one short sentence.')};
+mic.onclick=()=>{const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return alert('Voice input is not supported here.');const r=new SR();r.lang='en-US';r.onresult=e=>{q.value=e.results[0][0].transcript;ask(q.value)};r.start()};
+let sx=0,sy=0,drag=false;bubble.addEventListener('pointerdown',e=>{drag=true;sx=e.clientX-bubble.offsetLeft;sy=e.clientY-bubble.offsetTop;bubble.setPointerCapture(e.pointerId)});
+bubble.addEventListener('pointermove',e=>{if(!drag)return;bubble.style.left=Math.max(8,Math.min(innerWidth-bubble.offsetWidth-8,e.clientX-sx))+'px';bubble.style.right='auto';bubble.style.top=Math.max(8,Math.min(innerHeight-bubble.offsetHeight-8,e.clientY-sy))+'px';bubble.style.bottom='auto'});
 bubble.addEventListener('pointerup',()=>drag=false);
 if('serviceWorker' in navigator)navigator.serviceWorker.register('sw.js');
 </script></body></html>
